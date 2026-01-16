@@ -3,6 +3,7 @@
 import { useRef, useEffect } from "react";
 import type { Note } from "@/lib/notes";
 import { usePanes } from "@/lib/panes-context";
+import { NoteHeader } from "./NoteHeader";
 
 interface NotePaneProps {
   note: Note;
@@ -48,64 +49,11 @@ export function NotePane({ note, index, isActive, onLinkClick }: NotePaneProps) 
       {/* Main content area */}
       <div className="pane-main">
         <div className="pane-content">
+          {/* Header with metadata - outside note-content to avoid style inheritance */}
+          <NoteHeader note={note} />
+
+          {/* Content - org-mode rendered HTML */}
           <div className="note-content">
-            {/* Metadata */}
-            <dl className="note-metadata">
-              {note.status && (
-                <>
-                  <dt>Status:</dt>
-                  <dd><span className="tag">{note.status}</span></dd>
-                </>
-              )}
-              {note.certainty && (
-                <>
-                  <dt>Certainty:</dt>
-                  <dd><span className="tag">{note.certainty}</span></dd>
-                </>
-              )}
-              {note.importance && (
-                <>
-                  <dt>Importance:</dt>
-                  <dd><span className="tag">{note.importance}</span></dd>
-                </>
-              )}
-              {note.start && (
-                <>
-                  <dt>Start:</dt>
-                  <dd>{note.start}</dd>
-                </>
-              )}
-              {note.finish && (
-                <>
-                  <dt>Finish:</dt>
-                  <dd>{note.finish}</dd>
-                </>
-              )}
-              {note.tags.length > 0 && (
-                <>
-                  <dt>Tags:</dt>
-                  <dd>
-                    {note.tags.map((tag, i) => (
-                      <span key={tag}>
-                        <span className="tag">{tag}</span>
-                        {i < note.tags.length - 1 && " "}
-                      </span>
-                    ))}
-                  </dd>
-                </>
-              )}
-              {note.preview && (
-                <>
-                  <dt>Preview:</dt>
-                  <dd className="preview-text">{note.preview}</dd>
-                </>
-              )}
-            </dl>
-
-            {/* Title */}
-            <h1>{note.title}</h1>
-
-            {/* Content */}
             <div
               ref={contentRef}
               dangerouslySetInnerHTML={{ __html: note.htmlContent }}

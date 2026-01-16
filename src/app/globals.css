@@ -13,6 +13,28 @@
   --accent: hsl(0 0% 10%);
   --accent-muted: hsl(0 0% 30%);
 
+  /* shadcn/ui compatible variables */
+  --background: 0 0% 98%;
+  --foreground: 0 0% 20%;
+  --card: 0 0% 98%;
+  --card-foreground: 0 0% 20%;
+  --popover: 0 0% 98%;
+  --popover-foreground: 0 0% 20%;
+  --primary: 0 0% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 20%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 50%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 20%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 0 0% 20%;
+  --radius: 0.125rem;
+
   /* Sliding panes */
   --pane-width: 700px;
   --pane-tab-width: 32px;
@@ -35,11 +57,50 @@
   --border-color: hsl(0 0% 15%);
   --accent: hsl(0 0% 98%);
   --accent-muted: hsl(0 0% 70%);
+
+  /* shadcn/ui compatible variables - dark mode */
+  --background: 0 0% 7%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 98%;
+  --popover: 0 0% 7%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 7%;
+  --secondary: 0 0% 9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 0 0% 9%;
+  --muted-foreground: 0 0% 50%;
+  --accent: 0 0% 9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 15%;
+  --input: 0 0% 15%;
+  --ring: 0 0% 98%;
 }
 
 @theme inline {
-  --color-background: var(--bg-primary);
-  --color-foreground: var(--text-primary);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius: var(--radius);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
 }
@@ -185,22 +246,39 @@ body {
 .folder-item {
   cursor: pointer;
   padding: 0.375rem 0.5rem;
-  border-radius: 4px;
+  padding-left: 0.5rem;
+  border-radius: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--text-secondary);
-  transition: background 0.15s, color 0.15s;
+  color: var(--text-muted);
+  transition: color 0.15s;
+  position: relative;
 }
 
 .folder-item:hover {
-  background: var(--bg-tertiary);
   color: var(--text-primary);
 }
 
 .folder-item.active {
-  background: var(--bg-tertiary);
-  color: var(--accent);
+  color: var(--text-primary);
+}
+
+/* Highlight indicator - covers part of the folder-children border */
+.folder-children .folder-item::before {
+  content: "";
+  position: absolute;
+  left: -0.5rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.folder-children .folder-item:hover::before,
+.folder-children .folder-item.active::before {
+  background: var(--text-primary);
 }
 
 .folder-children {
@@ -366,140 +444,7 @@ body {
   padding: 2rem;
 }
 
-/* Note content styling */
-.note-content {
-  max-width: 65ch;
-  margin: 0 auto;
-}
-
-.note-content h1 {
-  font-family: var(--font-sans);
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: var(--text-primary);
-  line-height: 1.3;
-}
-
-.note-content h2 {
-  font-family: var(--font-sans);
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
-}
-
-.note-content h3 {
-  font-family: var(--font-sans);
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-primary);
-}
-
-.note-content p {
-  margin-bottom: 1rem;
-}
-
-.note-content a {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.15s;
-}
-
-.note-content a:hover {
-  border-bottom-color: var(--accent);
-}
-
-.note-content ul, .note-content ol {
-  margin-bottom: 1rem;
-  padding-left: 1.5rem;
-}
-
-.note-content li {
-  margin-bottom: 0.5rem;
-}
-
-.note-content blockquote {
-  border-left: 3px solid var(--border-color);
-  padding-left: 1rem;
-  margin: 1rem 0;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-.note-content pre {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 1rem;
-  overflow-x: auto;
-  margin: 1rem 0;
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.5;
-}
-
-.note-content code {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  background: var(--bg-secondary);
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-}
-
-.note-content pre code {
-  background: transparent;
-  padding: 0;
-}
-
-/* Metadata display */
-.note-metadata {
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.25rem 1rem;
-}
-
-.note-metadata dt {
-  font-weight: 500;
-  color: var(--text-secondary);
-}
-
-.note-metadata dd {
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.topic-link {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-/* Tags */
-.tag {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  background: var(--bg-tertiary);
-  color: var(--text-secondary);
-  padding: 0.125rem 0.5rem;
-  border: 1px solid var(--border-color);
-}
-
-/* Preview text in metadata */
-.preview-text {
-  font-style: italic;
-  color: var(--text-muted);
-}
+/* Note content styling defined in NOTE CONTENT section below */
 
 /* Backlinks section */
 .backlinks-section {
@@ -771,4 +716,390 @@ body {
   margin: 1rem 0;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+/* =============================================================================
+   NOTE CONTENT - Body Text Styling (from krisyotam.com essays)
+   Handles all org-mode rendered HTML elements
+   ========================================================================== */
+
+.note-content {
+  font-family: var(--font-source-serif), Georgia, "Times New Roman", Times, serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+}
+
+/* Headings - org * ** *** **** */
+.note-content h1,
+.note-content h2,
+.note-content h3,
+.note-content h4,
+.note-content h5,
+.note-content h6 {
+  font-family: var(--font-source-serif), Georgia, "Times New Roman", Times, serif;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  scroll-margin-top: 2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.note-content h1 {
+  font-size: 1.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px dotted var(--border-color);
+}
+
+.note-content h2 {
+  font-size: 1.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px dotted var(--border-color);
+}
+
+.note-content h3 {
+  font-size: 1.1rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px dotted var(--border-color);
+}
+
+.note-content h4 {
+  font-size: 1rem;
+}
+
+.note-content h5 {
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+.note-content h6 {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* First heading has less top margin */
+.note-content h1:first-child,
+.note-content h2:first-child,
+.note-content h3:first-child {
+  margin-top: 0.5rem;
+}
+
+/* Paragraphs */
+.note-content p {
+  text-align: justify;
+  text-align-last: left;
+  margin: 0 0 0.75rem 0;
+  line-height: 1.6;
+}
+
+/* Bold - org *bold* */
+.note-content strong,
+.note-content b {
+  font-weight: 600;
+}
+
+/* Italic - org /italic/ */
+.note-content em,
+.note-content i {
+  font-style: italic;
+}
+
+/* Underline - org _underline_ */
+.note-content u {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+/* Strikethrough - org +strike+ */
+.note-content s,
+.note-content del,
+.note-content strike {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Inline code - org =code= or ~code~ */
+.note-content code {
+  font-family: "JetBrains Mono", "Fira Code", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--bg-tertiary);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+  color: var(--text-primary);
+}
+
+/* Code blocks - org #+begin_src ... #+end_src */
+.note-content pre {
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  font-family: "JetBrains Mono", "Fira Code", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.note-content pre > code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* Example blocks - org #+begin_example ... #+end_example */
+.note-content .example,
+.note-content pre.example {
+  background: var(--bg-tertiary);
+  border-left: 3px solid var(--border-color);
+  font-family: "JetBrains Mono", "Fira Code", Menlo, Monaco, Consolas, monospace;
+}
+
+/* Blockquotes - org #+begin_quote ... #+end_quote */
+.note-content blockquote {
+  margin: 0.75rem 0;
+  padding: 0.5rem 1rem;
+  font-style: italic;
+  border-left: 3px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.note-content blockquote p {
+  margin-bottom: 0.5rem;
+}
+
+.note-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Links - org [[url][text]] */
+.note-content a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--text-muted);
+  transition: border-color 0.2s ease;
+}
+
+.note-content a:hover {
+  border-bottom-color: var(--text-primary);
+}
+
+/* Lists - org - item or 1. item */
+.note-content ul,
+.note-content ol {
+  margin: 0.5rem 0 0.75rem 0;
+  padding-left: 1.5rem;
+}
+
+.note-content li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.note-content li > ul,
+.note-content li > ol {
+  margin: 0.25rem 0;
+}
+
+/* Task lists - org - [ ] or - [X] */
+.note-content input[type="checkbox"] {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* Tables - org | a | b | */
+.note-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+  line-height: 1.4;
+  margin: 0.75rem 0;
+  table-layout: auto;
+}
+
+.note-content thead {
+  border-bottom: 2px solid var(--border-color);
+}
+
+.note-content th,
+.note-content td {
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.note-content th {
+  background: var(--bg-secondary);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.note-content tr:nth-child(even) {
+  background: var(--bg-secondary);
+}
+
+/* Horizontal rule - org ----- */
+.note-content hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1.5rem 0;
+}
+
+/* Images - org [[./img.png]] */
+.note-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0.75rem auto;
+  border-radius: 4px;
+}
+
+.note-content figure {
+  margin: 0.75rem 0;
+}
+
+.note-content figcaption {
+  font-size: 0.85em;
+  text-align: center;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
+/* Footnotes - org [fn:1] */
+.note-content .footnotes,
+.note-content .footdef {
+  border-top: 1px solid var(--border-color);
+  margin-top: 1.5rem;
+  padding-top: 0.75rem;
+  font-size: 0.9em;
+}
+
+.note-content .footref {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+/* Definition lists */
+.note-content dl {
+  margin: 0.5rem 0 0.75rem;
+}
+
+.note-content dt {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.note-content dd {
+  margin-left: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Superscript and subscript */
+.note-content sup {
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.note-content sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+  line-height: 0;
+}
+
+/* Keyboard keys */
+.note-content kbd {
+  display: inline-block;
+  padding: 0.15em 0.4em;
+  font-size: 0.85em;
+  font-family: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  background: var(--bg-secondary);
+}
+
+/* Abbreviations */
+.note-content abbr {
+  border-bottom: 1px dotted var(--text-muted);
+  cursor: help;
+}
+
+/* =============================================================================
+   NOTE CONTENT - Dark Mode
+   ========================================================================== */
+
+.dark .note-content {
+  color: var(--text-primary);
+}
+
+.dark .note-content h1,
+.dark .note-content h2,
+.dark .note-content h3,
+.dark .note-content h4,
+.dark .note-content h5,
+.dark .note-content h6 {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dark .note-content a {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-muted);
+}
+
+.dark .note-content a:hover {
+  border-bottom-color: var(--text-primary);
+}
+
+.dark .note-content code {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.dark .note-content pre {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.dark .note-content blockquote {
+  background: var(--bg-secondary);
+  border-left-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.dark .note-content table {
+  border-color: var(--border-color);
+}
+
+.dark .note-content th,
+.dark .note-content td {
+  border-color: var(--border-color);
+}
+
+.dark .note-content th {
+  background: var(--bg-tertiary);
+}
+
+.dark .note-content tr:nth-child(even) {
+  background: var(--bg-secondary);
+}
+
+.dark .note-content hr {
+  border-color: var(--border-color);
+}
+
+.dark .note-content kbd {
+  background: var(--bg-tertiary);
+  border-color: var(--border-color);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }

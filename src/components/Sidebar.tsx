@@ -33,49 +33,6 @@ function FolderIcon({ expanded }: { expanded: boolean }) {
   );
 }
 
-function NoteIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <rect
-        x="3"
-        y="2"
-        width="10"
-        height="12"
-        rx="1"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      />
-      <line
-        x1="5"
-        y1="5"
-        x2="11"
-        y2="5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="5"
-        y1="8"
-        x2="11"
-        y2="8"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="5"
-        y1="11"
-        x2="8"
-        y2="11"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 function SunIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -144,7 +101,6 @@ function FolderNode({
               className={`folder-item ${activeNoteId === note.id ? "active" : ""}`}
               onClick={() => onNoteClick(note.slug)}
             >
-              <NoteIcon />
               <span>{note.title}</span>
             </div>
           ))}
