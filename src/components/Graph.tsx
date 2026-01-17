@@ -84,9 +84,9 @@ export function Graph({ data, onNodeClick }: GraphProps) {
           .id((d) => d.id)
           .distance(50)
       )
-      .force("charge", d3.forceManyBody().strength(-100))
+      .force("charge", d3.forceManyBody().strength(-50))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(20));
+      .force("collision", d3.forceCollide().radius(10));
 
     // Draw links
     const link = g
@@ -141,7 +141,7 @@ export function Graph({ data, onNodeClick }: GraphProps) {
       .append("text")
       .attr("dx", 8)
       .attr("dy", 3)
-      .text((d) => d.title.length > 20 ? d.title.slice(0, 20) + "..." : d.title);
+      .text((d) => d.title);
 
     // Update positions on tick
     simulation.on("tick", () => {
